@@ -61,3 +61,5 @@ group :test do
 end
 
 gem "activeadmin", "~> 3.3"
+
+gem "open-uri", "~> 0.5.0"
