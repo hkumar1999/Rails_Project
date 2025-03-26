@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  appointment_date: 2025-03-26 10:10:49
+  service_type: MyString
+  status: MyString
+
+two:
+  user: two
+  appointment_date: 2025-03-26 10:10:49
+  service_type: MyString
+  status: MyString
