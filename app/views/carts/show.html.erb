@@ -1,0 +1,45 @@
+<h2>Your Shopping Cart</h2>
+
+<% if @cart.items.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% total_price = 0 %>
+      <% @cart.items.each do |item| %>
+        <% product = item[:product] %>
+        <% quantity = item[:quantity].to_i %>
+        <% subtotal = product.price * quantity %>
+        <% total_price += subtotal %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= number_to_currency(product.price) %></td>
+          <td>
+            <%= form_with url: cart_item_path(product), method: :patch, local: true do %>
+              <%= number_field_tag :quantity, quantity, min: 1 %>
+              <%= hidden_field_tag :product_id, product.id %>
+              <%= submit_tag "Update" %>
+            <% end %>
+          </td>
+          <td><%= number_to_currency(subtotal) %></td>
+          <td>
+            <%= button_to "Remove", cart_item_path(product), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 20px;">
+    <h3>Total: <%= number_to_currency(total_price) %></h3>
+  </div>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>

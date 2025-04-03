@@ -18,6 +18,8 @@
   </head>
 
   <body>
+  <%= link_to "🛒 Cart (#{Cart.new(session).total_items})", cart_path, style: "float: right;" %>
+
     <%= yield %>
   </body>
 </html>

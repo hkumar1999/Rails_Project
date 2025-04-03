@@ -1,10 +1,17 @@
-<p style="color: green"><%= notice %></p>
+<h2><%= @product.name %></h2>
+<p><%= @product.description %></p>
+<p><%= number_to_currency(@product.price) %></p>
 
-<%= render @product %>
+<% if @product.image.attached? %>
+  <%= image_tag @product.image, style: "max-width: 400px; height: auto;" %>
+<% end %>
 
-<div>
-  <%= link_to "Edit this product", edit_product_path(@product) %> |
-  <%= link_to "Back to products", products_path %>
-
-  <%= button_to "Destroy this product", @product, method: :delete %>
+<!-- Add to Cart form ONLY shown on product show page -->
+<div style="margin-top: 20px;">
+  <%= form_with url: cart_items_path, method: :post, local: true do %>
+    <%= hidden_field_tag :product_id, @product.id %>
+    <%= label_tag :quantity, "Quantity:" %>
+    <%= number_field_tag :quantity, 1, min: 1 %>
+    <%= submit_tag "Add to Cart", class: "btn btn-success" %>
+  <% end %>
 </div>
