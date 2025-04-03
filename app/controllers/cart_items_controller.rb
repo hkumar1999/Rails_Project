@@ -12,8 +12,10 @@ class CartItemsController < ApplicationController
   end
 
   def destroy
+    product_id = params[:id].to_s
     cart = Cart.new(session)
-    cart.remove_product(params[:product_id])
-    redirect_to cart_path, notice: "Product removed."
+    cart.remove_product(product_id) # <- use the correct method name
+    redirect_to cart_path, notice: "Product removed from cart."
   end
+  
 end
