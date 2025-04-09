@@ -18,8 +18,30 @@
   </head>
 
   <body>
-  <%= link_to "🛒 Cart (#{Cart.new(session).total_items})", cart_path, style: "float: right;" %>
+    <div style="padding: 10px; background-color: #f8f8f8;">
+      <%# Cart Link (safe for sessions) %>
+      <% begin %>
+        <%= link_to "🛒 Cart (#{Cart.new(session).total_items})", cart_path, style: "float: right; margin-left: 15px;" %>
+      <% rescue %>
+        <%= link_to "🛒 Cart (0)", cart_path, style: "float: right; margin-left: 15px;" %>
+      <% end %>
 
-    <%= yield %>
+      <%# Devise links %>
+      <% if user_signed_in? %>
+        <span style="float: right; margin-right: 15px;">
+          Logged in as <%= current_user.email %> |
+          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+        </span>
+      <% else %>
+        <span style="float: right; margin-right: 15px;">
+          <%= link_to "Sign up", new_user_registration_path %> |
+          <%= link_to "Login", new_user_session_path %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="container" style="padding: 20px;">
+      <%= yield %>
+    </div>
   </body>
 </html>
