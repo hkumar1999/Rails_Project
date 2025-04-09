@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: 'products#index'
   delete 'cart/remove/:product_id', to: 'cart#remove', as: 'remove_from_cart'
 

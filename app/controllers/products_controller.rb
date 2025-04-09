@@ -6,8 +6,9 @@ class ProductsController < ApplicationController
     # Keyword search
     if params[:query].present?
       keyword = "%#{params[:query].downcase}%"
-      @products = @products.where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", keyword, keyword)
+      @products = @products.where("LOWER(name) LIKE ?", keyword)
     end
+ 
 
     # Filter by category
     if params[:category_id].present?

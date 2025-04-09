@@ -11,7 +11,7 @@ ActiveAdmin.register Product do
   scope :new_products do |products|
     products.where("created_at >= ?", 3.days.ago)
   end
-  # 👇 Add :category_id to the permitted parameters
+  # Add :category_id to the permitted parameters
   permit_params :name, :description, :price, :stock_quantity, :image, :category_id
 
   index do
@@ -20,7 +20,7 @@ ActiveAdmin.register Product do
     column :name
     column :price
     column :stock_quantity
-    column :category # 👈 Show category name
+    column :category # Show category name
     column :created_at
     actions
   end
@@ -28,7 +28,7 @@ ActiveAdmin.register Product do
   filter :name
   filter :price
   filter :stock_quantity
-  filter :category # 👈 Add category filter
+  filter :category # Add category filter
   filter :created_at
 
   form do |f|
@@ -37,7 +37,7 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :price
       f.input :stock_quantity
-      f.input :category, as: :select, collection: Category.all # 👈 Dropdown list
+      f.input :category, as: :select, collection: Category.all #  Dropdown list
       f.input :image, as: :file
     end
     f.actions
@@ -49,7 +49,7 @@ ActiveAdmin.register Product do
       row :description
       row :price
       row :stock_quantity
-      row :category # 👈 Display assigned category
+      row :category #  Display assigned category
       row :image do |product|
         if product.image.attached?
           image_tag url_for(product.image), style: "max-width: 200px;"
