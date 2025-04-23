@@ -1,0 +1,9 @@
+{
+    "name": "Pet Care App",
+    "short_name": "PetCare",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#00b894"
+  }
+  

@@ -1,0 +1,46 @@
+<h2>Invoice</h2>
+
+<% if @order.user.present? %>
+  <p><strong>Customer:</strong> <%= @order.user.email %></p>
+  <p><strong>Address:</strong> <%= @order.user.address %></p>
+  <p><strong>Province:</strong> <%= @order.user.province.name %></p>
+<% else %>
+  <p><strong>Customer:</strong> Guest</p>
+  <p><strong>Address:</strong> <%= @order.address %></p>
+  <p><strong>Province:</strong> <%= @order.province.name %></p>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= number_to_currency(item.unit_price) %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.unit_price * item.quantity) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% subtotal = @order.order_items.sum { |item| item.unit_price * item.quantity } %>
+<% tax_source = @order.user&.province || @order.province %>
+<% pst = tax_source.pst || 0 %>
+<% gst = tax_source.gst || 0 %>
+<% hst = tax_source.hst || 0 %>
+<% taxes = subtotal * (pst + gst + hst) %>
+<% total = subtotal + taxes %>
+
+<p><strong>Subtotal:</strong> <%= number_to_currency(subtotal) %></p>
+<p><strong>PST:</strong> <%= number_to_currency(subtotal * pst) %></p>
+<p><strong>GST:</strong> <%= number_to_currency(subtotal * gst) %></p>
+<p><strong>HST:</strong> <%= number_to_currency(subtotal * hst) %></p>
+<p><strong>Total:</strong> <%= number_to_currency(total) %></p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_16_202346) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -81,6 +81,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "product_id", null: false
@@ -93,11 +105,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.decimal "total_price"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "guest_email"
+    t.integer "province_id"
+    t.string "address"
+    t.string "postal_code"
+    t.index ["province_id"], name: "index_orders_on_province_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -128,6 +145,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "name"
+    t.decimal "gst"
+    t.decimal "pst"
+    t.decimal "hst"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "product_id", null: false
@@ -142,7 +168,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.string "password_digest"
     t.string "address"
     t.string "phone"
     t.string "role"
@@ -152,7 +177,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "postal_code"
+    t.integer "province_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["province_id"], name: "index_users_on_province_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -161,6 +189,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
   add_foreign_key "appointments", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "provinces"
   add_foreign_key "orders", "users"
   add_foreign_key "payments", "appointments"
   add_foreign_key "payments", "orders"
@@ -168,4 +197,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165439) do
   add_foreign_key "products", "categories"
   add_foreign_key "reviews", "products"
   add_foreign_key "reviews", "users"
+  add_foreign_key "users", "provinces"
 end

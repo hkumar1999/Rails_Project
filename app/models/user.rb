@@ -1,12 +1,17 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # Devise modules for authentication
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-    has_secure_password
-  
-    validates :name, presence: true
-    validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-    validates :role, inclusion: { in: %w(Customer Admin) }
-  end
-  
+
+  # Associations
+  has_many :orders, dependent: :destroy
+  has_many :order_items, through: :orders
+
+  # Make province optional during sign-up
+  belongs_to :province, optional: true
+
+  # Validations
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  # address and postal_code are optional – no validation needed unless you want to add format checks
+end

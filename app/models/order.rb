@@ -1,7 +1,8 @@
 class Order < ApplicationRecord
-  belongs_to :user
-  has_many :order_items
+  belongs_to :user, optional: true
+  belongs_to :province
+
+  has_many :order_items, dependent: :destroy
 
   validates :total_price, presence: true, numericality: true
-  validates :status, inclusion: { in: %w(Pending Shipped Delivered Cancelled) }
 end
