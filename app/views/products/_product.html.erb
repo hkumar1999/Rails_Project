@@ -1,6 +1,6 @@
 <div class="product-card" style="border: 1px solid #ccc; border-radius: 8px; padding: 16px;">
   <% if product.image.attached? %>
-    <%= image_tag product.image, style: "max-width: 100%; height: auto;" %>
+    <%= image_tag product.image, alt: (product.name.presence || 'Product image'), style: "max-width: 100%; height: auto;" %>
   <% else %>
     <%= image_tag "placeholder.jpg", alt: "No image", style: "max-width: 100%; height: auto;" %>
   <% end %>
@@ -10,6 +10,4 @@
   <p><%= truncate(product.description, length: 100) %></p>
 
   <%= link_to "Show this product", product_path(product), class: "btn btn-primary" %>
-
-  <%# Removed "Add to Cart" form from index for cleaner UX %>
 </div>

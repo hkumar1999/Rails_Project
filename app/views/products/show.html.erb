@@ -3,7 +3,7 @@
 <p><%= number_to_currency(@product.price) %></p>
 
 <% if @product.image.attached? %>
-  <%= image_tag @product.image, style: "max-width: 400px; height: auto;" %>
+  <%= image_tag @product.image, alt: (@product.name.presence || "Product image"), style: "max-width: 400px; height: auto;" %>
 <% end %>
 
 <!-- Add to Cart form ONLY shown on product show page -->
