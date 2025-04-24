@@ -43,7 +43,8 @@ class OrdersController < ApplicationController
     session[:latest_order_id] = order.id
 
     # Redirect to Stripe checkout
-    redirect_to create_checkout_session_path
+    redirect_to create_checkout_session_path, allow_other_host: true, status: :see_other
+
   end
 
   def show

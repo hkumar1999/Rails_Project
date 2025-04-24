@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#edit', as: :edit_profile
   patch '/profile', to: 'users#update'
   get 'provinces/:id/taxes', to: 'provinces#taxes'
-  post "/create-checkout-session", to: "stripe_payments#create", as: "create_checkout_session"
+  get "/create-checkout-session", to: "stripe_payments#create", as: "create_checkout_session"
   get "/checkout/success", to: "stripe_payments#success", as: "checkout_success"
 
   # Explicitly keep products#index for searching
