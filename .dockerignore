@@ -1,0 +1,15 @@
+log/*
+tmp/*
+*.log
+*.pid
+*.gem
+node_modules
+public/assets
+storage
+.byebug_history
+coverage
+vendor/bundle
+.git
+.gitignore
+Dockerfile
+README.md
