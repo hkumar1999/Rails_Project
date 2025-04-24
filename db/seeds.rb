@@ -1,11 +1,14 @@
+# db/seeds.rb
 require 'open-uri'
+require 'faker'
 
-# Only seed categories and products if they don't exist (avoids duplication)
+# Seed Categories if not present
 if Category.count == 0
   categories = ["Food", "Toys", "Accessories", "Health"].map do |name|
     Category.create!(name: name)
   end
 
+  # Seed 10 basic products for initial setup
   10.times do |i|
     Product.create!(
       name: "Product #{i + 1}",
@@ -16,6 +19,24 @@ if Category.count == 0
       image: {
         io: URI.open("https://picsum.photos/300?random=#{i + 1}"),
         filename: "product#{i + 1}.jpg"
+      }
+    )
+  end
+end
+
+# Add 100 more Faker-generated products
+if Product.count < 110
+  categories = Category.all
+  100.times do |i|
+    Product.create!(
+      name: Faker::Commerce.product_name,
+      description: Faker::Marketing.buzzwords,
+      price: rand(10..100),
+      stock_quantity: rand(1..30),
+      category: categories.sample,
+      image: {
+        io: URI.open("https://picsum.photos/300?random=#{i + 101}"),
+        filename: "faker_product#{i + 101}.jpg"
       }
     )
   end
@@ -44,4 +65,4 @@ all_provinces.each do |data|
   province.update!(pst: data[:pst], gst: data[:gst], hst: data[:hst])
 end
 
-puts "✅ Provinces added or updated successfully!"
+puts "\u2705 Seeded provinces and 100+ products successfully!"
