@@ -64,5 +64,4 @@ all_provinces.each do |data|
   province = Province.find_or_initialize_by(name: data[:name])
   province.update!(pst: data[:pst], gst: data[:gst], hst: data[:hst])
 end
-
 puts "\u2705 Seeded provinces and 100+ products successfully!"
