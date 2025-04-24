@@ -8,7 +8,7 @@
 ARG RUBY_VERSION=3.1.2
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Rails app lives here
+# Rails app lives 
 WORKDIR /rails
 
 # Install base packages
