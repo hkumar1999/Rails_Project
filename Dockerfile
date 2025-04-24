@@ -29,7 +29,7 @@ COPY . .
 # Precompile assets if needed
 # RUN bundle exec rake assets:precompile
 
-# Expose the app port
+# Expose the app 
 EXPOSE 3000
 
 
